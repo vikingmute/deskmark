@@ -1,5 +1,5 @@
 import React from 'react';
-
+import marked from 'marked';
 export default class Item extends React.Component {
   constructor(props) {
     super(props);
@@ -20,22 +20,29 @@ export default class Item extends React.Component {
   }
   saveEdit() {
     let title = this.refs.title.value;
+    let content = this.refs.content.value;
     this.setState({editMode: false});
-    this.props.onSaveItem(this.props.item, title);
+    this.props.onSaveItem(this.props.item.id, title, content);
   }
   render() {
     let editMode = this.state.editMode;
     if (editMode) {
       return (
         <div>
-          <input ref="title" defaultValue={this.props.item.title}/>
+          <input ref="title" defaultValue={this.props.item.title}/><br/>
+          <textarea ref="content" defaultValue={this.props.item.content}/><br/>
           <button onClick={this.saveEdit}>Save</button>
           <button onClick={this.cancelEdit}>Cancel</button>
         </div>
       )
     } else {
+      let html = marked(this.props.item.content);
       return (
-        <div>{this.props.item.title}
+        <div>
+          <h3>{this.props.item.title}</h3>
+          <div className="card-text">
+            <div dangerouslySetInnerHTML={{__html: html}} />
+          </div>
           <button onClick={this.switchEdit}>Edit</button>
           <button onClick={this.deleteItem}>Delete</button>
         </div>

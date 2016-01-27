@@ -1,4 +1,5 @@
-//import '../node_modules/bootstrap/scss/bootstrap.scss';
+import '../node_modules/bootstrap/scss/bootstrap.scss';
+import './styles/app.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import storage from './utils/storage';
@@ -15,31 +16,28 @@ class App extends React.Component {
     this.saveItem = this.saveItem.bind(this);
   }
   createItem(item) {
-    this.setState({items: this.state.items.concat([item])});
+    storage.insertEntry(item.title, item.content);
+    this.setState({items: storage.getAll() });
   }
   deleteItem(item) {
-    let index = this.state.items.indexOf(item);
-    if (index != -1) {
-      this.state.items.splice(index, 1);
-      this.setState({items: this.state.items});
-    }
+    storage.deleteEntry(item.id);
+    this.setState({items: storage.getAll() });
   }
-  saveItem(item, title) {
-    let index = this.state.items.indexOf(item);
-    if (index != -1) {
-      this.state.items[index].title = title;
-      this.setState({items: this.state.items});
-    }
+  saveItem(id, title, content) {
+    storage.updateEntry(id, title, content);
+    this.setState({items: storage.getAll() });
   }
   render() {
     return (
-      <div className="container">
-        <section className="jumbotron">
-          <h3 className="jumbotron-heading">Deskmark App</h3>
-          <Create onCreateItem={this.createItem}/>
-          <List items={this.state.items} onDeleteItem={this.deleteItem} onSaveItem={this.saveItem}/>
-        </section>
-      </div>
+      <section>
+        <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
+          <a class="navbar-brand" href="#">Deskmark App</a>
+        </nav>
+        <div className="container">
+            <Create onCreateItem={this.createItem}/>
+            <List items={this.state.items} onDeleteItem={this.deleteItem} onSaveItem={this.saveItem}/>
+        </div>
+      </section>
     );
   }
 }

@@ -11,17 +11,17 @@ export default class List extends React.Component {
           )
         } else {
           return (
-            <ul>
+            <div className="row">
               {
                 this.props.items.map(function(item) {
-                  return <li key={item.id}>
+                  return <div className="card" key={item.id}>
                       <Item item={item}
                             onDeleteItem={this.props.onDeleteItem}
                             onSaveItem={this.props.onSaveItem}/>
-                    </li>
+                        </div>
                 }.bind(this))
               }
-            </ul>
+            </div>
           )
         }
 

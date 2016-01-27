@@ -1,29 +1,13 @@
 import uuid from 'uuid';
-/*
-{
-  deskmark: [
-  {id:'1234-..', title: 'hello', content: 'funk music'}
-  ]
-}
-*/
+
 let storage = {
   getAll() {
     let results = window.localStorage.getItem('deskmark');
     if (results) {
-      try (JSON.parse(results)) {
-        return JSON.parse(results);
-      } catch (e) {
-        console.error(e);
-      }
+      return JSON.parse(results);
     } else {
       return [];
     }
-  },
-  getEntry(id) {
-    let results = this.getAll();
-    return results.find(function(result) {
-      return result.id === id;
-    })
   },
   insertEntry(title, content) {
     let results = this.getAll();
@@ -34,17 +18,21 @@ let storage = {
   },
   deleteEntry(id) {
     let results = this.getAll();
-    let entry = this.getEntry(id);
-    let index = results.indexOf(entry);
+    let index = results.map(function(entry) {return entry.id}).indexOf(id);
     if (index != -1) {
       results.splice(index, 1);
       window.localStorage.setItem('deskmark', JSON.stringify(results));
     }
   },
-  updateEntry(id, data) {
-    let entry = this.getEntry(id);
-    entry.title =
+  updateEntry(id, title, content) {
+    let results = this.getAll();
+    let entry =  results.find(function(result) {
+      return result.id === id;
+    });
+    entry.title = title;
+    entry.content = content;
+    window.localStorage.setItem('deskmark', JSON.stringify(results));
   }
 }
 
-export storage;
+export default storage;
