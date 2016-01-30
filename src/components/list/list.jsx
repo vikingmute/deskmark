@@ -1,5 +1,8 @@
 import React from 'react';
 import Item from './item';
+
+import './list.scss';
+
 export default class List extends React.Component {
   constructor(props) {
     super(props);
@@ -7,18 +10,18 @@ export default class List extends React.Component {
   render() {
         if (this.props.items.length === 0 ) {
           return (
-            <h2>no entries right now</h2>
+            <div className="list-component">
+              <h2>no entries right now</h2>
+            </div>
           )
         } else {
           return (
-            <div className="row">
+            <div className="list-component">
               {
                 this.props.items.map(function(item) {
-                  return <div className="card" key={item.id}>
-                      <Item item={item}
+                  return <Item item={item}
                             onDeleteItem={this.props.onDeleteItem}
                             onSaveItem={this.props.onSaveItem}/>
-                        </div>
                 }.bind(this))
               }
             </div>

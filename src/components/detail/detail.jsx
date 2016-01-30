@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './detail.scss';
+
 export default class Detail extends React.Component {
 
   constructor(props) {
@@ -7,7 +9,7 @@ export default class Detail extends React.Component {
   },
   render() {
     return (
-      <article>
+      <article class="detail-component">
         <h2>{this.props.title}</h2>
         <div>
           {this.props.content}

@@ -3,12 +3,12 @@ var webpack = require('webpack');
 var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
+var SRC_PATH = path.resolve(ROOT_PATH, 'src');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 module.exports= {
   entry: {
-    app: path.resolve(APP_PATH, 'index.jsx')
+    app: path.resolve(SRC_PATH, 'app.jsx')
   },
   output: {
     path: BUILD_PATH,
@@ -25,14 +25,19 @@ module.exports= {
     progress: true
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
+    alias: {
+      'node_modules': path.resolve(ROOT_PATH, 'node_modules/'),
+      'utils': path.resolve(SRC_PATH, 'utils/'),
+      'components': path.resolve(SRC_PATH, 'components/')
+    }
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
         loaders: ['react-hot', 'babel?presets[]=es2015&presets[]=react'],
-        include: APP_PATH
+        include: SRC_PATH
       },
       {
         test: /\.scss$/,

@@ -28,7 +28,7 @@ export default class Item extends React.Component {
     let editMode = this.state.editMode;
     if (editMode) {
       return (
-        <div>
+        <div className="item-component">
           <input ref="title" defaultValue={this.props.item.title}/><br/>
           <textarea ref="content" defaultValue={this.props.item.content}/><br/>
           <button onClick={this.saveEdit}>Save</button>
@@ -38,9 +38,9 @@ export default class Item extends React.Component {
     } else {
       let html = marked(this.props.item.content);
       return (
-        <div>
+        <div className="item-component">
           <h3>{this.props.item.title}</h3>
-          <div className="card-text">
+          <div className="item-text">
             <div dangerouslySetInnerHTML={{__html: html}} />
           </div>
           <button onClick={this.switchEdit}>Edit</button>

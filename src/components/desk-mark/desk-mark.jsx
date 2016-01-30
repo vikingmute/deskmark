@@ -1,11 +1,11 @@
-import '../node_modules/bootstrap/scss/bootstrap.scss';
-import './styles/app.scss';
+import './desk-mark.scss';
+
 import React from 'react';
-import ReactDOM from 'react-dom';
-import storage from './utils/storage';
-import List from './components/list';
-import Create from './components/create';
-class App extends React.Component {
+import storage from 'utils/storage';
+import List from 'components/list/list';
+import Create from 'components/creator/creator';
+
+export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <section>
+      <section className="desk-mark-component">
         <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
           <a class="navbar-brand" href="#">Deskmark App</a>
         </nav>
@@ -41,7 +41,3 @@ class App extends React.Component {
     );
   }
 }
-
-const app = document.createElement('div');
-document.body.appendChild(app);
-ReactDOM.render(<App />, app);

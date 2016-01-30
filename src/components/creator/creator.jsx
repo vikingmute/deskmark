@@ -1,5 +1,8 @@
 import React from 'react';
 import marked from 'marked';
+
+import './creator.scss';
+
 export default class Create extends React.Component{
   constructor(props) {
     super(props);
@@ -39,7 +42,7 @@ export default class Create extends React.Component{
   render() {
     if (this.state.show) {
       return (
-        <div>
+        <div className="creator-component">
           <input ref="title" placeholder="enter your title"/><br/>
           <textarea ref="item" placeholder="enter the task">
           </textarea>
@@ -53,7 +56,7 @@ export default class Create extends React.Component{
       )
     } else {
       return (
-        <div>
+        <div className="creator-component">
           <button onClick={this.toggleInterface}>Create New Entry</button>
         </div>
       )
