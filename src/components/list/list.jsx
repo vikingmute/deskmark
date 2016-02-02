@@ -8,25 +8,19 @@ export default class List extends React.Component {
     super(props);
   }
   render() {
-        if (this.props.items.length === 0 ) {
-          return (
-            <div className="list-component">
-              <h2>no entries right now</h2>
-            </div>
-          )
-        } else {
-          return (
-            <div className="list-component">
-              {
-                this.props.items.map(function(item) {
-                  return <Item item={item}
-                            onDeleteItem={this.props.onDeleteItem}
-                            onSaveItem={this.props.onSaveItem}/>
-                }.bind(this))
-              }
-            </div>
-          )
+    return (
+      <div className="list-component col-md-4 list-group">
+        <a href="#" onClick={this.props.onOpenEmptyEditor} className="list-group-item create-entry">
+          + 创建新的文章
+        </a>
+        {
+          this.props.items.map(function(item) {
+            return <Item item={item}
+                      onOpenEditor={this.props.onOpenEditor}/>
+          }.bind(this))
         }
-
+      </div>
+    )
   }
+
 }

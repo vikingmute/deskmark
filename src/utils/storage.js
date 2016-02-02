@@ -9,12 +9,20 @@ let storage = {
       return [];
     }
   },
+  getEntry(id) {
+    let results = this.getAll();
+    let entry =  results.find(function(result) {
+      return result.id === id;
+    });
+    return entry;
+  },
   insertEntry(title, content) {
     let results = this.getAll();
     let id = uuid.v4();
-    let entry = {'id': id, 'title': title, 'content': content};
+    let entry = {'id': id, 'title': title, 'content': content, 'time': new Date().getTime()};
     results.push(entry);
     window.localStorage.setItem('deskmark', JSON.stringify(results));
+    return entry;
   },
   deleteEntry(id) {
     let results = this.getAll();
