@@ -1,9 +1,16 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import marked from 'marked';
 
 import './editor.scss';
 
-export default class Editor extends React.Component {
+const propTypes = {
+  item: PropTypes.object.isRequired,
+  onCreateItem: PropTypes.func.isRequired,
+  onDeleteItem: PropTypes.func.isRequired,
+  onSaveItem: PropTypes.func.isRequired
+};
+
+class Editor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {editMode: false, createMode: false};
@@ -99,3 +106,7 @@ export default class Editor extends React.Component {
     }
   }
 }
+
+Editor.propTypes = propTypes;
+
+export default Editor;

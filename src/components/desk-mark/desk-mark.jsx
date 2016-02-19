@@ -3,7 +3,6 @@ import './desk-mark.scss';
 import React from 'react';
 import storage from 'utils/storage';
 import List from 'components/list/list';
-import Create from 'components/creator/creator';
 import Editor from 'components/editor/editor';
 
 export default class App extends React.Component {

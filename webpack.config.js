@@ -4,11 +4,14 @@ var HtmlwebpackPlugin = require('html-webpack-plugin');
 
 var ROOT_PATH = path.resolve(__dirname);
 var SRC_PATH = path.resolve(ROOT_PATH, 'src');
+var APP_PATH = path.resolve(ROOT_PATH, 'app');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 
 module.exports= {
   entry: {
     app: path.resolve(SRC_PATH, 'app.jsx')
+    //for redux example
+    //app: path.resolve(APP_PATH, 'index.jsx')
   },
   output: {
     path: BUILD_PATH,
