@@ -22,6 +22,9 @@
   "author": "vikingmute, island205",
   "license": "MIT",
   "homepage": "https://github.com/island205/deskmark#readme",
+  "engines": {
+    "node": ">=0.12.0"
+  },
   "devDependencies": {
     "babel-core": "^6.3.15",
     "babel-loader": "^6.2.0",
