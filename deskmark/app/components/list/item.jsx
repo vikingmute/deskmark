@@ -17,13 +17,13 @@ class Item extends React.Component {
     return (
       <a href="#"
         className="list-group-item item-component"
-        onClick={() => onOpenEditor(item) }>
+        onClick={() => onOpenEditor(item)}>
         <span className="label label-default label-pill pull-xs-right">
           {formatTime}
         </span>
         {item.title}
       </a>
-    )
+    );
   }
 }
 

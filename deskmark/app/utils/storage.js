@@ -11,7 +11,7 @@ let storage = {
   },
   getEntry(id) {
     let results = this.getAll();
-    let entry =  results.find(function(result) {
+    let entry = results.find(function(result) {
       return result.id === id;
     });
     return entry;

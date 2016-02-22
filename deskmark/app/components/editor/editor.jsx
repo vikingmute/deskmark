@@ -62,9 +62,9 @@ class Editor extends React.Component {
     let createMode = this.state.createMode;
     let createOrEdit = null;
     if (createMode) {
-      createOrEdit = <button onClick={this.createItem} className="btn btn-success">创建</button>
+      createOrEdit = <button onClick={this.createItem} className="btn btn-success">创建</button>;
     } else {
-      createOrEdit = <button onClick={this.saveEdit} className="btn btn-success">保存</button>
+      createOrEdit = <button onClick={this.saveEdit} className="btn btn-success">保存</button>;
     }
     if (this.props.item) {
       if (editMode) {
@@ -77,11 +77,11 @@ class Editor extends React.Component {
             <div className="edit-area">
               <input ref="title" placeholder="请填写标题" defaultValue={this.props.item.title}/>
               <textarea ref="content"
-                        placeholder="请填写内容"
-                        defaultValue={this.props.item.content}/>
+                placeholder="请填写内容"
+                defaultValue={this.props.item.content}/>
             </div>
           </div>
-        )
+        );
       } else {
         let html = marked(this.props.item.content);
         return (
@@ -95,14 +95,14 @@ class Editor extends React.Component {
               <div dangerouslySetInnerHTML={{__html: html}} />
             </div>
           </div>
-        )
+        );
       }
     } else {
       return (
         <div className="col-md-8 editor-component">
           <div className="no-select">请选择左侧列表里面的文章</div>
         </div>
-      )
+      );
     }
   }
 }
