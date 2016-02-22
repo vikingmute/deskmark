@@ -24,7 +24,7 @@ class Editor extends React.Component {
     if (!nextProps.item) {
       return;
     }
-    if (nextProps.item.title === '') {
+    if (!nextProps.item.id) {
       this.setState({editMode: true, createMode: true});
     } else {
       this.setState({editMode: false, createMode: false});
