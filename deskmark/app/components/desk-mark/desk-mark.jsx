@@ -33,13 +33,13 @@ export default class App extends React.Component {
     this.setState({items: storage.getAll(), item: entry});
   }
   openEditor(item) {
-    this.setState({item: item });
+    this.setState({item: item});
   }
   openEmptyEditor() {
     let emptyEntry = {
       'title': '',
       'content': ''
-    }
+    };
     this.setState({item: emptyEntry});
   }
   cancelCreate() {
@@ -52,16 +52,16 @@ export default class App extends React.Component {
           <a className="navbar-brand" href="#">Deskmark App</a>
         </nav>
         <div className="container">
-            <div className="row">
-              <List items={this.state.items}
-                    onOpenEditor={this.openEditor}
-                    onOpenEmptyEditor={this.openEmptyEditor}/>
-              <Editor item={this.state.item}
-                      onDeleteItem={this.deleteItem}
-                      onSaveItem={this.saveItem}
-                      onCreateItem={this.createItem}
-                      onCancelCreate={this.cancelCreate}/>
-            </div>
+          <div className="row">
+            <List items={this.state.items}
+              onOpenEditor={this.openEditor}
+              onOpenEmptyEditor={this.openEmptyEditor}/>
+            <Editor item={this.state.item}
+              onDeleteItem={this.deleteItem}
+              onSaveItem={this.saveItem}
+              onCreateItem={this.createItem}
+              onCancelCreate={this.cancelCreate}/>
+          </div>
         </div>
       </section>
     );

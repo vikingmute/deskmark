@@ -27,11 +27,7 @@ module.exports= {
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    alias: {
-      'node_modules': path.resolve(ROOT_PATH, 'node_modules/'),
-      'utils': path.resolve(APP_PATH, 'utils/'),
-      'components': path.resolve(APP_PATH, 'components/')
-    }
+    root: APP_PATH
   },
   module: {
     loaders: [

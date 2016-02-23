@@ -13,18 +13,20 @@ class List extends React.Component {
     super(props);
   }
   render() {
+    let items = this.props.items.map(item => {
+      return (
+        <Item item={item}
+          key={item.id}
+          onOpenEditor={this.props.onOpenEditor} />
+      );
+    });
+
     return (
       <div className="list-component col-md-4 list-group">
         <CreateBar onOpenEmptyEditor={this.props.onOpenEmptyEditor}/ >
-        {
-          this.props.items.map(function(item) {
-            return <Item item={item}
-                      key={item.id}
-                      onOpenEditor={this.props.onOpenEditor} />
-          }.bind(this))
-        }
+        {items}
       </div>
-    )
+    );
   }
 }
 
