@@ -1,5 +1,7 @@
 ## Deskmark
 
+[![Join the chat at https://gitter.im/vikingmute/deskmark](https://badges.gitter.im/vikingmute/deskmark.svg)](https://gitter.im/vikingmute/deskmark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Deskmark是一个基于React的应用，你可以用markdown创建文档并且保存在本地，同时也可以管理，分类和预览创建好的markdown文档。
 我们使用下面的技术：
 
