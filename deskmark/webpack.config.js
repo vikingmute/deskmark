@@ -8,8 +8,6 @@ var APP_PATH = path.resolve(ROOT_PATH, 'app');
 module.exports= {
   entry: {
     app: path.resolve(APP_PATH, 'app.jsx')
-    //for redux example
-    //app: path.resolve(APP_PATH, 'index.jsx')
   },
   output: {
     path: BUILD_PATH,
@@ -30,6 +28,13 @@ module.exports= {
     root: APP_PATH
   },
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loaders: ['eslint'],
+        include: APP_PATH
+      }
+    ],
     loaders: [
       {
         test: /\.jsx?$/,

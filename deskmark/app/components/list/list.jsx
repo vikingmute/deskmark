@@ -5,7 +5,8 @@ import './list.scss';
 
 const propTypes = {
   items: PropTypes.array.isRequired,
-  onOpenEditor: PropTypes.func.isRequired
+  onOpenEditor: PropTypes.func.isRequired,
+  onOpenEmptyEditor: PropTypes.func.isRequired
 };
 
 class List extends React.Component {

@@ -27,7 +27,7 @@ let storage = {
   },
   deleteEntry(id) {
     let results = this.getAll();
-    let index = results.map(function(entry) {return entry.id}).indexOf(id);
+    let index = results.map(function(entry) {return entry.id;}).indexOf(id);
     if (index != -1) {
       results.splice(index, 1);
       this.saveAll(results);
@@ -42,6 +42,6 @@ let storage = {
     entry.content = content;
     this.saveAll(results);
   }
-}
+};
 
 export default storage;

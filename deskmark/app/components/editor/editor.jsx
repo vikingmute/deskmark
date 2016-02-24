@@ -1,3 +1,4 @@
+/* eslint react/no-danger: 0 */
 import React, {PropTypes} from 'react';
 import marked from 'marked';
 
@@ -7,7 +8,9 @@ const propTypes = {
   item: PropTypes.object.isRequired,
   onCreateItem: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
-  onSaveItem: PropTypes.func.isRequired
+  onSaveItem: PropTypes.func.isRequired,
+  onSaveCreate: PropTypes.func.isRequired,
+  onCancelCreate: PropTypes.func.isRequired
 };
 
 class Editor extends React.Component {
@@ -43,7 +46,7 @@ class Editor extends React.Component {
     let title = this.refs.title.value;
     let content = this.refs.content.value;
     this.setState({editMode: false});
-    this.props.onCreateItem({"title": title, "content": content});
+    this.props.onCreateItem({'title': title, 'content': content});
   }
   saveEdit() {
     let title = this.refs.title.value;

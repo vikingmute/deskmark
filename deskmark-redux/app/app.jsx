@@ -5,6 +5,8 @@ import {createStore} from 'redux';
 import App from './containers/app';
 import rootReducer from './reducers';
 
+import 'bootstrap/scss/bootstrap.scss';
+
 const store = createStore(rootReducer);
 const ele = document.createElement('div');
 document.body.appendChild(ele);
@@ -14,4 +16,4 @@ render (
     <App/>
   </Provider>,
   ele
-)
+);

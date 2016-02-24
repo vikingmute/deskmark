@@ -9,27 +9,28 @@ let storage = {
       return [];
     }
   },
+  saveAll(results) {
+    window.localStorage.setItem('deskmark', JSON.stringify(results));
+  },
   getEntry(id) {
     let results = this.getAll();
-    let entry =  results.find(function(result) {
-      return result.id === id;
-    });
+    let entry = results.find(result => result.id === id);
     return entry;
   },
   insertEntry(title, content) {
     let results = this.getAll();
     let id = uuid.v4();
-    let entry = {'id': id, 'title': title, 'content': content, 'time': new Date().getTime()};
+    let entry = {id, title, content, 'time': new Date().getTime()};
     results.push(entry);
-    window.localStorage.setItem('deskmark', JSON.stringify(results));
+    this.saveAll(results);
     return entry;
   },
   deleteEntry(id) {
     let results = this.getAll();
-    let index = results.map(function(entry) {return entry.id}).indexOf(id);
+    let index = results.map(function(entry) {return entry.id;}).indexOf(id);
     if (index != -1) {
       results.splice(index, 1);
-      window.localStorage.setItem('deskmark', JSON.stringify(results));
+      this.saveAll(results);
     }
   },
   updateEntry(id, title, content) {
@@ -39,9 +40,9 @@ let storage = {
     });
     entry.title = title;
     entry.content = content;
-    window.localStorage.setItem('deskmark', JSON.stringify(results));
+    this.saveAll(results);
     return entry;
   }
-}
+};
 
 export default storage;
