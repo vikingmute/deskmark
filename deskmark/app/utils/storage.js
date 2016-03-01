@@ -1,47 +1,81 @@
 import uuid from 'uuid';
 
-let storage = {
-  getAll() {
-    let results = window.localStorage.getItem('deskmark');
-    if (results) {
-      return JSON.parse(results);
-    } else {
-      return [];
-    }
-  },
-  saveAll(results) {
-    window.localStorage.setItem('deskmark', JSON.stringify(results));
-  },
-  getEntry(id) {
-    let results = this.getAll();
-    let entry = results.find(result => result.id === id);
-    return entry;
-  },
-  insertEntry(title, content) {
-    let results = this.getAll();
-    let id = uuid.v4();
-    let entry = {id, title, content, 'time': new Date().getTime()};
-    results.push(entry);
-    this.saveAll(results);
-    return entry;
-  },
-  deleteEntry(id) {
-    let results = this.getAll();
-    let index = results.map(function(entry) {return entry.id;}).indexOf(id);
-    if (index != -1) {
-      results.splice(index, 1);
-      this.saveAll(results);
-    }
-  },
-  updateEntry(id, title, content) {
-    let results = this.getAll();
-    let entry =  results.find(function(result) {
-      return result.id === id;
-    });
-    entry.title = title;
-    entry.content = content;
-    this.saveAll(results);
-  }
-};
+const STORAGE = window.localStorage;
+const STORAGE_KEY = 'deskmark';
 
-export default storage;
+export function getAll () {
+  return new Promise((resolve, reject) => {
+    let results = STORAGE.getItem(STORAGE_KEY);
+
+    resolve(
+      results
+      ? JSON.parse(results)
+      : []
+    );
+  });
+}
+
+export function saveAll (results) {
+  return new Promise((resolve, reject) => {
+    STORAGE.setItem(
+      STORAGE_KEY,
+      JSON.stringify(results)
+    );
+
+    resolve();
+  });
+}
+
+export function getEntry (id) {
+  return getAll()
+    .then(
+      results => results.find(
+        result => result.id === id
+      )
+    );
+}
+
+export function insertEntry (title, content) {
+  let entry = {
+    title,
+    content,
+    id: uuid.v4(),
+    time: new Date().getTime()
+  };
+
+  return getAll()
+    .then(
+      results => saveAll(
+        results.concat(entry)
+      )
+    )
+    .then(() => entry);
+},
+
+export function deleteEntry (id) {
+  return getAll()
+    .then(
+      results => results.filter(
+        result => result.id === id
+      )
+    )
+    .then(saveAll);
+},
+
+export function updateEntry (id, title, content) {
+  return getAll()
+    .then(
+      results => results.map(
+        result => (
+          result.id === id
+          ? {
+            title,
+            content,
+            ...result
+          }
+          : result
+        )
+      )
+    )
+    .then(saveAll);
+}
