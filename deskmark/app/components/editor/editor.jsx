@@ -5,11 +5,10 @@ import marked from 'marked';
 import './editor.scss';
 
 const propTypes = {
-  item: PropTypes.object.isRequired,
+  item: PropTypes.object,
   onCreateItem: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onSaveItem: PropTypes.func.isRequired,
-  onSaveCreate: PropTypes.func.isRequired,
   onCancelCreate: PropTypes.func.isRequired
 };
 
