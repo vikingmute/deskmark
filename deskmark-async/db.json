@@ -1,0 +1,23 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "content": "###hello there",
+      "time": 1456994373001
+    },
+    {
+      "id": 2,
+      "title": "testing something fancy",
+      "content": "#hello there title",
+      "time": 1456994373001
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "viking",
+      "postId": 1
+    }
+  ]
+}
