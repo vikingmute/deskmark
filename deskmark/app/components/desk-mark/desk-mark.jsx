@@ -1,9 +1,10 @@
 import './desk-mark.scss';
 
 import React from 'react';
-import * as storage from 'utils/storage';
+import uuid from 'uuid';
 import List from 'components/list/list';
 import Editor from 'components/editor/editor';
+import Shower from 'components/editor/shower';
 
 export default class App extends React.Component {
 
@@ -12,63 +13,105 @@ export default class App extends React.Component {
 
     this.state = {
       items: [],
-      item: null
+      selectedId: null,
+      editing: false
     };
 
-    this.refreshList = this.refreshList.bind(this);
-    this.createItem = this.createItem.bind(this);
-    this.deleteItem = this.deleteItem.bind(this);
+    this.selectItem = this.selectItem.bind(this);
     this.saveItem = this.saveItem.bind(this);
-    this.openEditor = this.openEditor.bind(this);
-    this.openEmptyEditor = this.openEmptyEditor.bind(this);
-    this.cancelCreate = this.cancelCreate.bind(this);
+    this.deleteItem = this.deleteItem.bind(this);
+    this.createItem = this.createItem.bind(this);
+    this.editItem = this.editItem.bind(this);
+    this.cancelEdit = this.cancelEdit.bind(this);
   }
 
-  refreshList() {
-    return storage.getAll()
-      .then(items => this.setState({ items }));
+  selectItem(id) {
+    if (id === this.state.selectedId) {
+      return;
+    }
+
+    this.setState({
+      selectedId: id,
+      editing: false
+    });
   }
 
-  createItem({ title, content }) {
-    return storage.insertEntry(title, content)
-      .then(item => this.setState({ item }))
-      .then(this.refreshList);
+  saveItem(item) {
+    let items = this.state.items;
+
+    // new item
+    if (!item.id) {
+      item.id = uuid.v4();
+      item.time = new Date().getTime();
+      items = [...items, item];
+    // existed item
+    } else {
+      items = items.map(
+        exist => (
+          exist.id === item.id
+          ? {
+            ...exist,
+            ...item
+          }
+          : exist
+        )
+      );
+    }
+
+    this.setState({
+      items,
+      editing: false
+    });
   }
 
-  deleteItem({ id }) {
-    return storage.deleteEntry(id)
-      .then(() => this.setState({ item: null }))
-      .then(this.refreshList);
+  deleteItem(id) {
+    if (!id) {
+      return;
+    }
+
+    this.setState({
+      items: this.state.items.filter(
+        result => result.id !== id
+      )
+    });
   }
 
-  saveItem(id, title, content) {
-    return storage.updateEntry(id, title, content)
-      .then(() => storage.getEntry(id))
-      .then(item => this.setState({ item }))
-      .then(this.refreshList);
+  createItem() {
+    this.setState({
+      selectedId: null,
+      editing: true
+    });
   }
 
-  openEditor(item) {
-    this.setState({item: item});
+  editItem(id) {
+    this.setState({
+      selectedId: id,
+      editing: true
+    });
   }
 
-  openEmptyEditor() {
-    let emptyEntry = {
-      'title': '',
-      'content': ''
-    };
-    this.setState({item: emptyEntry});
-  }
-
-  cancelCreate() {
-    this.setState({item: null});
-  }
-
-  componentDidMount() {
-    this.refreshList();
+  cancelEdit() {
+    this.setState({ editing: false });
   }
 
   render() {
+
+    let { items, selectedId, editing } = this.state;
+
+    let selected = selectedId && items.find(item => item.id === selectedId);
+
+    let mainPart = editing
+      ? <Editor
+          item={selected}
+          onSave={this.saveItem}
+          onCancel={this.cancelEdit}
+        />
+      : <Shower
+          item={selected}
+          onEdit={this.editItem}
+          onDelete={this.deleteItem}
+        />;
+
     return (
       <section className="desk-mark-component">
         <nav className="navbar navbar-fixed-top navbar-dark bg-inverse">
@@ -76,14 +119,12 @@ export default class App extends React.Component {
         </nav>
         <div className="container">
           <div className="row">
-            <List items={this.state.items}
-              onOpenEditor={this.openEditor}
-              onOpenEmptyEditor={this.openEmptyEditor}/>
-            <Editor item={this.state.item}
-              onDeleteItem={this.deleteItem}
-              onSaveItem={this.saveItem}
-              onCreateItem={this.createItem}
-              onCancelCreate={this.cancelCreate}/>
+            <List
+              items={this.state.items}
+              onSelect={this.selectItem}
+              onCreate={this.createItem}
+            />
+            {mainPart}
           </div>
         </div>
       </section>

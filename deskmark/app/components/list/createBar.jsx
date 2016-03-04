@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
 
 const propTypes = {
-  onOpenEmptyEditor: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
-function CreateBar({onOpenEmptyEditor}){
+function CreateBar({ onClick }){
   return (
-    <a href="#" onClick={onOpenEmptyEditor} className="list-group-item create-entry">
+    <a href="#" onClick={onClick} className="list-group-item create-entry">
       + 创建新的文章
     </a>
   );

@@ -3,7 +3,7 @@ import marked from 'marked';
 
 const propTypes = {
   item: PropTypes.object.isRequired,
-  onOpenEditor: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
 class Item extends React.Component {
@@ -12,12 +12,15 @@ class Item extends React.Component {
   }
 
   render() {
-    let {item, onOpenEditor} = this.props;
+    let {item, onClick} = this.props;
     let formatTime = new Date(item.time).toISOString().match(/(\d{4}-\d{2}-\d{2})/)[1];
+
     return (
-      <a href="#"
+      <a
+        href="#"
         className="list-group-item item-component"
-        onClick={() => onOpenEditor(item)}>
+        onClick={onClick}
+      >
         <span className="label label-default label-pill pull-xs-right">
           {formatTime}
         </span>

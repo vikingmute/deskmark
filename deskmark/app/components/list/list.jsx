@@ -5,26 +5,32 @@ import './list.scss';
 
 const propTypes = {
   items: PropTypes.array.isRequired,
-  onOpenEditor: PropTypes.func.isRequired,
-  onOpenEmptyEditor: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired
 };
 
 class List extends React.Component {
+
   constructor(props) {
     super(props);
   }
+
   render() {
-    let items = this.props.items.map(item => {
-      return (
-        <Item item={item}
+    let { items, onSelect, onCreate } = this.props;
+
+    items = items.map(
+      item => (
+        <Item
+          item={item}
           key={item.id}
-          onOpenEditor={this.props.onOpenEditor} />
-      );
-    });
+          onClick={() => onSelect(item.id)}
+        />
+      )
+    );
 
     return (
       <div className="list-component col-md-4 list-group">
-        <CreateBar onOpenEmptyEditor={this.props.onOpenEmptyEditor}/ >
+        <CreateBar onClick={onCreate} />
         {items}
       </div>
     );
