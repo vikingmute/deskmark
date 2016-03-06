@@ -1,7 +1,12 @@
+/*
+ * @file component list
+ */
+
+import './list.scss';
+
 import React, {PropTypes} from 'react';
 import Item from './item';
-import CreateBar from './createBar';
-import './list.scss';
+import CreateBar from './create-bar';
 
 const propTypes = {
   items: PropTypes.array.isRequired,

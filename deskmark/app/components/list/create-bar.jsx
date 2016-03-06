@@ -1,3 +1,7 @@
+/*
+ * @file component create-bar
+ */
+
 import React, {PropTypes} from 'react';
 
 const propTypes = {

@@ -1,7 +1,12 @@
+/*
+ * @file component editor
+ */
+
 /* eslint react/no-danger: 0 */
-import React, {PropTypes} from 'react';
 
 import './editor.scss';
+
+import React, {PropTypes} from 'react';
 
 const propTypes = {
   item: PropTypes.object,

@@ -1,8 +1,13 @@
+/*
+ * @file component shower
+ */
+
 /* eslint react/no-danger: 0 */
-import React, {PropTypes} from 'react';
-import marked from 'marked';
 
 import './shower.scss';
+
+import React, {PropTypes} from 'react';
+import marked from 'marked';
 
 const propTypes = {
   item: PropTypes.object,
@@ -30,7 +35,7 @@ class Editor extends React.Component {
         </div>
       );
     }
-    
+
     return (
       <div className="col-md-8 shower-component">
         <div className="no-select">请选择左侧列表里面的文章</div>

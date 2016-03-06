@@ -1,10 +1,14 @@
-import './desk-mark.scss';
+/*
+ * @file component deskmark
+ */
+
+import './deskmark.scss';
 
 import React from 'react';
 import uuid from 'uuid';
 import List from 'components/list/list';
-import Editor from 'components/editor/editor';
-import Shower from 'components/editor/shower';
+import Editor from 'components/item/editor';
+import Shower from 'components/item/shower';
 
 export default class App extends React.Component {
 
@@ -60,6 +64,7 @@ export default class App extends React.Component {
 
     this.setState({
       items,
+      selectedId: item.id,
       editing: false
     });
   }

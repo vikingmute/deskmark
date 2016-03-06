@@ -1,3 +1,7 @@
+/*
+ * @file component item
+ */
+
 import React, {PropTypes} from 'react';
 import marked from 'marked';
 
@@ -12,7 +16,7 @@ class Item extends React.Component {
   }
 
   render() {
-    let {item, onClick} = this.props;
+    let { item, onClick } = this.props;
     let formatTime = new Date(item.time).toISOString().match(/(\d{4}-\d{2}-\d{2})/)[1];
 
     return (
