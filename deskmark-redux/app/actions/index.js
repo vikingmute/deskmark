@@ -1,23 +1,35 @@
-export function createEntry(title, content) {
-  return { type: 'createEntry', title, content };
+export const SAVE_ENTRY = 'SAVE_ENTRY';
+export const DELETE_ENTRY = 'DELETE_ENTRY';
+export const SELECT_ITEM = 'SELECT_ITEM';
+export const CREATE_NEW_ENTRY = 'CREATE_NEW_ENTRY';
+export const FETCH_POSTS = 'FETCH_POSTS';
+export const EDIT_ENTRY = 'EDIT_ENTRY';
+export const CANCEL_EDIT = 'CANCEL_EDIT';
+
+export function saveEntry(data) {
+  return { type: SAVE_ENTRY, data };
 }
 
 export function deleteEntry(id) {
-  return { type: 'deleteEntry', id };
+  return { type: DELETE_ENTRY, id };
 }
 
-export function saveEntry(id, title, content) {
-  return { type: 'saveEntry', id, title, content };
+export function selectItem(id) {
+  return {type: SELECT_ITEM, id};
 }
 
-export function openEditor(id) {
-  return { type: 'openEditor', id};
+export function createNewEntry() {
+  return {type: CREATE_NEW_ENTRY};
 }
 
-export function openEmptyEditor(id) {
-  return {type: 'openEmptyEditor'};
+export function fetchPosts() {
+  return {type: FETCH_POSTS};
 }
 
-export function cancelCreate() {
-  return {type: 'cancelCreate'};
+export function editEntry() {
+  return {type: EDIT_ENTRY};
+}
+
+export function cancelEdit() {
+  return {type: CANCEL_EDIT};
 }

@@ -38,7 +38,7 @@ module.exports= {
     loaders: [
       {
         test: /\.jsx?$/,
-        loaders: ['react-hot', 'babel'],
+        loaders: ['babel'],
         include: APP_PATH
       },
       {
@@ -46,9 +46,6 @@ module.exports= {
         loaders: ['style', 'css', 'sass']
       }
     ]
-  },
-  jshint: {
-    "esnext": true
   },
   plugins: [
     new HtmlwebpackPlugin({
