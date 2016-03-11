@@ -1,14 +1,14 @@
 /*
- * @file component deskmark
+ * @file component Deskmark
  */
 
-import './deskmark.scss';
+import './style.scss';
 
 import React from 'react';
 import uuid from 'uuid';
-import List from 'components/list/list';
-import Editor from 'components/item/editor';
-import Shower from 'components/item/shower';
+import List from 'components/List';
+import ItemEditor from 'components/ItemEditor';
+import ItemShowLayer from 'components/ItemShowLayer';
 
 export default class App extends React.Component {
 
@@ -106,19 +106,19 @@ export default class App extends React.Component {
     let selected = selectedId && items.find(item => item.id === selectedId);
 
     let mainPart = editing
-      ? <Editor
+      ? <ItemEditor
           item={selected}
           onSave={this.saveItem}
           onCancel={this.cancelEdit}
         />
-      : <Shower
+      : <ItemShowLayer
           item={selected}
           onEdit={this.editItem}
           onDelete={this.deleteItem}
         />;
 
     return (
-      <section className="desk-mark-component">
+      <section className="deskmark-component">
         <nav className="navbar navbar-fixed-top navbar-dark bg-inverse">
           <a className="navbar-brand" href="#">Deskmark App</a>
         </nav>

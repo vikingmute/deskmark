@@ -7,8 +7,8 @@ import 'bootstrap/scss/bootstrap.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DeskMark from 'components/deskmark/deskmark';
+import Deskmark from 'components/Deskmark';
 
 const app = document.createElement('div');
 document.body.appendChild(app);
-ReactDOM.render(<DeskMark />, app);
+ReactDOM.render(<Deskmark />, app);
