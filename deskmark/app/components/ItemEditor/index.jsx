@@ -1,10 +1,10 @@
 /*
- * @file component editor
+ * @file component ItemEditor
  */
 
 /* eslint react/no-danger: 0 */
 
-import './editor.scss';
+import './style.scss';
 
 import React, {PropTypes} from 'react';
 
@@ -14,7 +14,7 @@ const propTypes = {
   onCancel: PropTypes.func.isRequired
 };
 
-class Editor extends React.Component {
+class ItemEditor extends React.Component {
 
   render() {
 
@@ -34,7 +34,7 @@ class Editor extends React.Component {
     });
 
     return (
-      <div className="col-md-8 editor-component">
+      <div className="col-md-8 item-editor-component">
         <div className="control-area">
           <button onClick={save} className="btn btn-success">{saveText}</button>
           <button onClick={onCancel} className="btn secondary">取消</button>
@@ -48,6 +48,6 @@ class Editor extends React.Component {
   }
 }
 
-Editor.propTypes = propTypes;
+ItemEditor.propTypes = propTypes;
 
-export default Editor;
+export default ItemEditor;
