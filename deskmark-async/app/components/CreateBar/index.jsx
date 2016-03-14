@@ -6,7 +6,7 @@ const propTypes = {
 
 function CreateBar({openEmptyEditor}){
   return (
-    <a href="#" onClick={openEmptyEditor} className="list-group-item create-entry">
+    <a href="#" onClick={openEmptyEditor} className="list-group-item create-bar-component">
       + 创建新的文章
     </a>
   );

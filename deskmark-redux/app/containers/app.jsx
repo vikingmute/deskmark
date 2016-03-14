@@ -1,9 +1,9 @@
 import React, {PropTypes}from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import List from '../components/list/list';
-import ShowLayer from '../components/item/showLayer';
-import Editor from '../components/item/editor';
+import List from 'components/List';
+import ItemShowLayer from 'components/ItemShowLayer';
+import ItemEditor from 'components/ItemEditor';
 import * as actionCreators from '../actions';
 import './app.scss';
 
@@ -22,15 +22,19 @@ class App extends React.Component {
   }
   render() {
     const {main, actions} = this.props;
-    let editing = main.item.isEditing;
-    let item = main.item.data;
+    let editing = main.editor.isEditing;
+    let selectedId = main.editor.selectedId;
+    let item;
+    if (selectedId) {
+      item = main.items.data.find((item) => item.id === selectedId);
+    }
     let mainPart = editing
-      ? <Editor
+      ? <ItemEditor
           item={item}
           onSave={actions.saveEntry}
           onCancel={actions.cancelEdit}
         />
-      : <ShowLayer
+      : <ItemShowLayer
           item={item}
           onEdit={actions.editEntry}
           onDelete={actions.deleteEntry}
