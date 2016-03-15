@@ -18,7 +18,7 @@ class App extends React.Component {
   }
   componentDidMount() {
     const {actions} = this.props;
-    actions.fetchPosts();
+    actions.fetchEntries();
   }
   render() {
     const {main, actions} = this.props;
@@ -26,7 +26,7 @@ class App extends React.Component {
     let selectedId = main.editor.selectedId;
     let item;
     if (selectedId) {
-      item = main.items.data.find((item) => item.id === selectedId);
+      item = main.items.find((item) => item.id === selectedId);
     }
     let mainPart = editing
       ? <ItemEditor
@@ -47,8 +47,8 @@ class App extends React.Component {
         <div className="container">
           <div className="row">
             <List
-              items={main.items.data}
-              onSelect={actions.selectItem}
+              items={main.items}
+              onSelect={actions.selectEntry}
               onCreate={actions.createNewEntry}
             />
             {mainPart}
