@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
-import data from './data';
+import items from './items';
+import editor from './editor';
 
 const rootReducer = combineReducers({
-  data
+  items,
+  editor
 });
 
 export default rootReducer;
