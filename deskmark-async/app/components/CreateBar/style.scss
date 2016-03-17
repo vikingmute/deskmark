@@ -2,12 +2,13 @@
  * @file style for component CreateBar
  */
 
-a.create-bar-component {
-  background: #0275d8;
-  color: #fff;
-
-  &:hover {
-    background: darken(#0275d8, 20%);
-    color: #fff;
-  }
-}
+.list-component {
+   .create-bar-component {
+     background: #0275d8;
+     color: #fff;
+     &:hover {
+       background: darken(#0275d8, 20%);
+       color: #fff;
+     }
+   }
+ }

@@ -1,12 +1,19 @@
+/*
+ * @file component create-bar
+ */
+
+
+import './style.scss';
+
 import React, {PropTypes} from 'react';
 
 const propTypes = {
-  openEmptyEditor: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };
 
-function CreateBar({openEmptyEditor}){
+function CreateBar({ onClick }){
   return (
-    <a href="#" onClick={openEmptyEditor} className="list-group-item create-bar-component">
+    <a href="#" onClick={onClick} className="list-group-item create-bar-component">
       + 创建新的文章
     </a>
   );

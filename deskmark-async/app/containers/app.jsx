@@ -1,7 +1,9 @@
 import React, {PropTypes}from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import List from '../components/list';
+import List from '../components/List';
+import ItemShowLayer from 'components/ItemShowLayer';
+import ItemEditor from 'components/ItemEditor';
 import * as actionCreators from '../actions';
 import './app.scss';
 
@@ -17,10 +19,23 @@ class App extends React.Component {
   }
   componentDidMount() {
     const {actions} = this.props;
-    actions.fetchPosts();
+    actions.fetchEntries();
   }
   render() {
     const {main, actions} = this.props;
+    let editing = main.editor.isEditing;
+    let item = main.editor.item;
+    let mainPart = editing
+      ? <ItemEditor
+          item={item}
+          onSave={actions.saveEntry}
+          onCancel={actions.cancelEdit}
+        />
+      : <ItemShowLayer
+          item={item}
+          onEdit={actions.editEntry}
+          onDelete={actions.deleteEntry}
+        />;
     return (
       <section className="desk-mark-component">
         <nav className="navbar navbar-fixed-top navbar-dark bg-inverse">
@@ -28,10 +43,12 @@ class App extends React.Component {
         </nav>
         <div className="container">
           <div className="row">
-            <List items={main.posts.items}
-                  loading={main.posts.isFetching}
-                  actions={actions}
+            <List
+              items={main.items.entries}
+              onSelect={actions.selectEntry}
+              onCreate={actions.createNewEntry}
             />
+            {mainPart}
           </div>
         </div>
       </section>
@@ -43,7 +60,7 @@ App.propTypes = propTypes;
 
 function mapStateToProps(state) {
   return {
-    main: state.data
+    main: state
   };
 }
 function mapDispatchToProps(dispatch) {

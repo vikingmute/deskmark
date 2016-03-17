@@ -1,47 +1,61 @@
 import uuid from 'uuid';
+import fetch from 'isomorphic-fetch';
+
+const ENTRIES_PRIFIX = 'http://localhost:8080/api/entries';
+
+function defaultHeaders() {
+  const headers = new Headers();
+  headers.append('accept', 'application/json');
+  headers.append('content-type', 'application/json');
+  return headers;
+}
+
+function getJSON(url, opts = {}) {
+  const headers = defaultHeaders();
+  const options = Object.assign({}, {method: 'GET', headers}, opts);
+  return fetch(url, options).then(res => res.json());
+}
+
+function postJSON(url, data = null, opts = {}) {
+  const headers = defaultHeaders();
+  const defaultOpts = {method: 'POST', headers};
+  if (data) {
+    defaultOpts.body = JSON.stringify(data);
+  }
+  const options = Object.assign(defaultOpts, opts);
+  return fetch(url, defaultOpts).then(res => res.json());
+}
+
+function putJSON(url, data = null, opts = {}) {
+  return postJSON(url, data, Object.assign({ method: 'PUT'}, opts));
+}
+
+function deleteJSON(url, opts = {}) {
+  return getJSON(url, Object.assign({method: 'DELETE'}, opts));
+}
 
 let storage = {
   getAll() {
-    let results = window.localStorage.getItem('deskmark');
-    if (results) {
-      return JSON.parse(results);
-    } else {
-      return [];
-    }
+    return getJSON(`${ENTRIES_PRIFIX}`);
   },
   saveAll(results) {
     window.localStorage.setItem('deskmark', JSON.stringify(results));
   },
   getEntry(id) {
-    let results = this.getAll();
-    let entry = results.find(result => result.id === id);
-    return entry;
+    return getJSON(`${ENTRIES_PRIFIX}/${id}`);
   },
   insertEntry(title, content) {
-    let results = this.getAll();
     let id = uuid.v4();
     let entry = {id, title, content, 'time': new Date().getTime()};
-    results.push(entry);
-    this.saveAll(results);
-    return entry;
+    return postJSON(`${ENTRIES_PRIFIX}`, entry);
   },
   deleteEntry(id) {
-    let results = this.getAll();
-    let index = results.map(function(entry) {return entry.id;}).indexOf(id);
-    if (index != -1) {
-      results.splice(index, 1);
-      this.saveAll(results);
-    }
+    return deleteJSON(`${ENTRIES_PRIFIX}/${id}`);
   },
   updateEntry(id, title, content) {
-    let results = this.getAll();
-    let entry =  results.find(function(result) {
-      return result.id === id;
-    });
-    entry.title = title;
-    entry.content = content;
-    this.saveAll(results);
-    return entry;
+    let entry = {title, content};
+    entry.time = new Date().getTime();
+    return putJSON(`${ENTRIES_PRIFIX}/${id}`, entry);
   }
 };
 
