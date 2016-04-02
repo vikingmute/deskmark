@@ -60,19 +60,21 @@ export function deleteEntry (id) {
 }
 
 export function updateEntry (id, title, content) {
+  let entry;
   return getAll()
     .then(
       results => results.map(
         result => (
           result.id === id
-          ? {
+          ? (entry = {
             ...result,
             title,
             content
-          }
+          })
           : result
         )
       )
     )
-    .then(saveAll);
+    .then(saveAll)
+    .then(() => entry);
 }
