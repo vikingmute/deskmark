@@ -15,6 +15,7 @@ const createStoreWithMiddleware = applyMiddleware(
 const store = createStoreWithMiddleware(rootReducer);
 const ele = document.createElement('div');
 document.body.appendChild(ele);
+
 render (
   <Provider store={store}>
     <App/>
