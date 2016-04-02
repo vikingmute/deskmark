@@ -1,62 +1,78 @@
 import uuid from 'uuid';
-import fetch from 'isomorphic-fetch';
+import {
+  subscribe as subscribeToFirebase,
+  save as saveToFirebase
+} from './firebase';
 
-const ENTRIES_PRIFIX = 'http://localhost:8080/api/entries';
+let currentResults = null;
 
-function defaultHeaders() {
-  const headers = new Headers();
-  headers.append('accept', 'application/json');
-  headers.append('content-type', 'application/json');
-  return headers;
+var inited = new Promise((resolve, reject) => {
+  subscribeToFirebase(data => {
+    currentResults = data || [];
+    resolve();
+  });
+});
+
+export function getAll () {
+  return inited.then(() => currentResults);
 }
 
-function getJSON(url, opts = {}) {
-  const headers = defaultHeaders();
-  const options = Object.assign({}, {method: 'GET', headers}, opts);
-  return fetch(url, options).then(res => res.json());
+export function saveAll (results) {
+  return new Promise((resolve, reject) => {
+    saveToFirebase(results).then(
+      () => resolve(),
+      reject
+    );
+  });
 }
 
-function postJSON(url, data = null, opts = {}) {
-  const headers = defaultHeaders();
-  const defaultOpts = {method: 'POST', headers};
-  if (data) {
-    defaultOpts.body = JSON.stringify(data);
-  }
-  const options = Object.assign(defaultOpts, opts);
-  return fetch(url, defaultOpts).then(res => res.json());
+export function getEntry (id) {
+  return getAll()
+    .then(
+      results => results.find(
+        result => result.id === id
+      )
+    );
 }
 
-function putJSON(url, data = null, opts = {}) {
-  return postJSON(url, data, Object.assign({ method: 'PUT'}, opts));
+export function insertEntry (title, content) {
+  let entry = {
+    title,
+    content,
+    id: uuid.v4(),
+    time: new Date().getTime()
+  };
+
+  return getAll()
+    .then(results => [...results, entry])
+    .then(saveAll)
+    .then(() => entry);
 }
 
-function deleteJSON(url, opts = {}) {
-  return getJSON(url, Object.assign({method: 'DELETE'}, opts));
+export function deleteEntry (id) {
+  return getAll()
+    .then(
+      results => results.filter(
+        result => result.id !== id
+      )
+    )
+    .then(saveAll);
 }
 
-let storage = {
-  getAll() {
-    return getJSON(`${ENTRIES_PRIFIX}`);
-  },
-  saveAll(results) {
-    window.localStorage.setItem('deskmark', JSON.stringify(results));
-  },
-  getEntry(id) {
-    return getJSON(`${ENTRIES_PRIFIX}/${id}`);
-  },
-  insertEntry(title, content) {
-    let id = uuid.v4();
-    let entry = {id, title, content, 'time': new Date().getTime()};
-    return postJSON(`${ENTRIES_PRIFIX}`, entry);
-  },
-  deleteEntry(id) {
-    return deleteJSON(`${ENTRIES_PRIFIX}/${id}`);
-  },
-  updateEntry(id, title, content) {
-    let entry = {title, content};
-    entry.time = new Date().getTime();
-    return putJSON(`${ENTRIES_PRIFIX}/${id}`, entry);
-  }
-};
-
-export default storage;
+export function updateEntry (id, title, content) {
+  return getAll()
+    .then(
+      results => results.map(
+        result => (
+          result.id === id
+          ? {
+            ...result,
+            title,
+            content
+          }
+          : result
+        )
+      )
+    )
+    .then(saveAll);
+}

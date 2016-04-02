@@ -1,4 +1,4 @@
-import storage from 'utils/storage';
+import * as storage from 'utils/storage';
 
 //sync actions
 export const SELECT_ENTRY = 'SELECT_ENTRY';
