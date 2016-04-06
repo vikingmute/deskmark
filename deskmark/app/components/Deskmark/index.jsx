@@ -9,6 +9,7 @@ import uuid from 'uuid';
 import List from 'components/List';
 import ItemEditor from 'components/ItemEditor';
 import ItemShowLayer from 'components/ItemShowLayer';
+import CreateBar from 'components/CreateBar';
 
 export default class App extends React.Component {
 
@@ -124,10 +125,10 @@ export default class App extends React.Component {
         </nav>
         <div className="container">
           <div className="row">
+            <CreateBar onClick={this.createItem} />
             <List
               items={this.state.items}
               onSelect={this.selectItem}
-              onCreate={this.createItem}
             />
             {mainPart}
           </div>
