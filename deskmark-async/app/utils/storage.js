@@ -1,80 +1,62 @@
 import uuid from 'uuid';
-import {
-  subscribe as subscribeToFirebase,
-  save as saveToFirebase
-} from './firebase';
+import fetch from 'isomorphic-fetch';
 
-let currentResults = null;
+const ENTRIES_PRIFIX = 'http://localhost:8080/api/entries';
 
-var inited = new Promise((resolve, reject) => {
-  subscribeToFirebase(data => {
-    currentResults = data || [];
-    resolve();
-  });
-});
-
-export function getAll () {
-  return inited.then(() => currentResults);
+function defaultHeaders() {
+  const headers = new Headers();
+  headers.append('accept', 'application/json');
+  headers.append('content-type', 'application/json');
+  return headers;
 }
 
-export function saveAll (results) {
-  return new Promise((resolve, reject) => {
-    saveToFirebase(results).then(
-      () => resolve(),
-      reject
-    );
-  });
+function getJSON(url, opts = {}) {
+  const headers = defaultHeaders();
+  const options = Object.assign({}, {method: 'GET', headers}, opts);
+  return fetch(url, options).then(res => res.json());
 }
 
-export function getEntry (id) {
-  return getAll()
-    .then(
-      results => results.find(
-        result => result.id === id
-      )
-    );
+function postJSON(url, data = null, opts = {}) {
+  const headers = defaultHeaders();
+  const defaultOpts = {method: 'POST', headers};
+  if (data) {
+    defaultOpts.body = JSON.stringify(data);
+  }
+  const options = Object.assign(defaultOpts, opts);
+  return fetch(url, defaultOpts).then(res => res.json());
 }
 
-export function insertEntry (title, content) {
-  let entry = {
-    title,
-    content,
-    id: uuid.v4(),
-    time: new Date().getTime()
-  };
-
-  return getAll()
-    .then(results => [...results, entry])
-    .then(saveAll)
-    .then(() => entry);
+function putJSON(url, data = null, opts = {}) {
+  return postJSON(url, data, Object.assign({ method: 'PUT'}, opts));
 }
 
-export function deleteEntry (id) {
-  return getAll()
-    .then(
-      results => results.filter(
-        result => result.id !== id
-      )
-    )
-    .then(saveAll);
+function deleteJSON(url, opts = {}) {
+  return getJSON(url, Object.assign({method: 'DELETE'}, opts));
 }
 
-export function updateEntry (id, title, content) {
-  let entry;
-  return getAll()
-    .then(
-      results => results.map(
-        result => (
-          result.id === id
-          ? (entry = {
-            ...result,
-            title,
-            content
-          })
-          : result
-        )
-      )
-    )
-    .then(saveAll)
-    .then(() => entry);
-}
+let storage = {
+  getAll() {
+    return getJSON(`${ENTRIES_PRIFIX}`);
+  },
+  saveAll(results) {
+    window.localStorage.setItem('deskmark', JSON.stringify(results));
+  },
+  getEntry(id) {
+    return getJSON(`${ENTRIES_PRIFIX}/${id}`);
+  },
+  insertEntry(title, content) {
+    let id = uuid.v4();
+    let entry = {id, title, content, 'time': new Date().getTime()};
+    return postJSON(`${ENTRIES_PRIFIX}`, entry);
+  },
+  deleteEntry(id) {
+    return deleteJSON(`${ENTRIES_PRIFIX}/${id}`);
+  },
+  updateEntry(id, title, content) {
+    let entry = {title, content};
+    entry.time = new Date().getTime();
+    return putJSON(`${ENTRIES_PRIFIX}/${id}`, entry);
+  }
+};
+
+export default storage;

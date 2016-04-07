@@ -1,4 +1,4 @@
-import * as storage from 'utils/storage';
+import * as storage from 'utils/firebaseStorage';
 
 //sync actions
 export const SELECT_ENTRY = 'SELECT_ENTRY';
