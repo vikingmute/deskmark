@@ -1,4 +1,4 @@
-import storage from 'utils/storage';
+import * as storage from 'utils/firebaseStorage';
 
 //sync actions
 export const SELECT_ENTRY = 'SELECT_ENTRY';
@@ -70,7 +70,7 @@ function requestUpdateEntry() {
 function updateSavedEntry(entry) {
   return {type: UPDATE_SAVED_ENTRY, entry};
 }
-function updateEntres(entries) {
+function updateEntries(entries) {
   return {type: UPDATE_ENTRIES, entries};
 }
 
@@ -83,13 +83,13 @@ export function saveEntry(entry) {
       storage.updateEntry(id, title, content)
         .then((entry) => dispatch(updateSavedEntry(entry)))
         .then(() => storage.getAll())
-        .then(entries => dispatch(updateEntres(entries)));
+        .then(entries => dispatch(updateEntries(entries)));
     } else {
       //创建流程
       storage.insertEntry(title, content)
         .then(entry => dispatch(updateSavedEntry(entry)))
         .then(() => storage.getAll())
-        .then(entries => dispatch(updateEntres(entries)));
+        .then(entries => dispatch(updateEntries(entries)));
     }
   };
 }

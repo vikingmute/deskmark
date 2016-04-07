@@ -1,32 +1,28 @@
 import uuid from 'uuid';
+import {
+  subscribe as subscribeToFirebase,
+  save as saveToFirebase
+} from './firebase';
 
-const STORAGE = window.localStorage;
-const STORAGE_KEY = 'deskmark';
+let currentResults = null;
+
+var inited = new Promise((resolve, reject) => {
+  subscribeToFirebase(data => {
+    currentResults = data || [];
+    resolve();
+  });
+});
 
 export function getAll () {
-  return new Promise((resolve, reject) => {
-    let results = STORAGE.getItem(STORAGE_KEY);
-
-    try {
-      resolve(
-        results
-        ? JSON.parse(results)
-        : []
-      );
-    } catch (e) {
-      resolve([]);
-    }
-  });
+  return inited.then(() => currentResults);
 }
 
 export function saveAll (results) {
   return new Promise((resolve, reject) => {
-    STORAGE.setItem(
-      STORAGE_KEY,
-      JSON.stringify(results)
+    saveToFirebase(results).then(
+      () => resolve(),
+      reject
     );
-
-    resolve();
   });
 }
 

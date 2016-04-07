@@ -38,7 +38,9 @@ export default function editor(state = initialState, action) {
     case ActionTypes.CREATE_NEW_ENTRY:
       return Object.assign({}, state, {
         selectedId: null,
-        isEditing: true
+        isEditing: true,
+        isFetching: false,
+        item: null
       });
     case ActionTypes.EDIT_ENTRY:
       return Object.assign({}, state, {
