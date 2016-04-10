@@ -4,15 +4,13 @@
 
 import React, {PropTypes} from 'react';
 import ListItem from 'components/ListItem';
-import CreateBar from 'components/CreateBar';
 
 const propTypes = {
   items: PropTypes.array.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired
 };
 
-function List ({ items, onSelect, onCreate }) {
+function List ({ items, onSelect }) {
   items = items.map(
     item => (
       <ListItem
@@ -24,8 +22,7 @@ function List ({ items, onSelect, onCreate }) {
   );
 
   return (
-    <div className="list-component col-md-4 list-group">
-      <CreateBar onClick={onCreate} />
+    <div className="list-component">
       {items}
     </div>
   );

@@ -1,9 +1,12 @@
+/*
+ * @file reducers
+ */
+
 import { combineReducers } from 'redux';
-import items from './items';
+import entries from './entries';
 import editor from './editor';
-const rootReducer = combineReducers({
-  items,
+
+export default combineReducers({
+  entries,
   editor
 });
-
-export default rootReducer;

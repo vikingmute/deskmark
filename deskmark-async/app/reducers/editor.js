@@ -1,56 +1,62 @@
-import * as ActionTypes from '../actions';
+/*
+ * @file reducers for editor
+ */
+
+import * as ActionTypes from 'actions';
 
 const initialState = {
-  item: null,
   isEditing: false,
-  selectedId: null,
-  isFetching: false
+  selectedId: null
 };
 
-export default function editor(state = initialState, action) {
-  switch (action.type) {
-    //GET /entries/${id}
-    case ActionTypes.REQUEST_ENTRY:
-      return Object.assign({}, state, {
-        isFetching: true
-      });
-    case ActionTypes.RECEIVE_ENTRY:
-      return Object.assign({}, state, {
-        item: action.entry
-      });
-    //POST /entries/ or PUT /entries/${id}
-    case ActionTypes.UPDATE_SAVED_ENTRY:
-      console.log(action);
-      return Object.assign({}, state, {
-        selectedId: action.id,
+const { pending, fulfilled } = ActionTypes;
+
+export default function (state = initialState, action) {
+  const { type, payload } = action;
+
+  switch (type) {
+
+    case ActionTypes.SELECT_ENTRY:
+      return {
+        ...state,
         isEditing: false,
-        isFetching: false,
-        item: action.entry
-      });
-    //DELETE /entries/${id}
-    case ActionTypes.UPDATE_DELETED_ENTRY:
-      return Object.assign({}, state, {
-        selectedId: null,
-        isEditing: false,
-        isFetching: false,
-        item: null
-      });
+        selectedId: payload
+      };
+
     case ActionTypes.CREATE_NEW_ENTRY:
-      return Object.assign({}, state, {
-        selectedId: null,
+      return {
+        ...state,
         isEditing: true,
-        isFetching: false,
-        item: null
-      });
+        selectedId: null
+      };
+
     case ActionTypes.EDIT_ENTRY:
-      return Object.assign({}, state, {
-        selectedId: action.id,
-        isEditing: true
-      });
+      return {
+        ...state,
+        isEditing: true,
+        selectedId: payload
+      };
+
     case ActionTypes.CANCEL_EDIT:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         isEditing: false
-      });
+      };
+
+    case fulfilled(ActionTypes.SAVE_ENTRY):
+      return {
+        ...state,
+        isEditing: false,
+        selectedId: state.selectedId || payload.id
+      };
+
+    case fulfilled(ActionTypes.DELETE_ENTRY):
+      return {
+        ...state,
+        isEditing: false,
+        selectedId: null
+      };
+
     default:
       return state;
   }

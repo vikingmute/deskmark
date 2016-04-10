@@ -1,113 +1,111 @@
+/*
+ * @file actions
+ */
+
 import * as storage from 'utils/firebaseStorage';
 
-//sync actions
+// sync actions
 export const SELECT_ENTRY = 'SELECT_ENTRY';
 export const CREATE_NEW_ENTRY = 'CREATE_NEW_ENTRY';
 export const EDIT_ENTRY = 'EDIT_ENTRY';
 export const CANCEL_EDIT = 'CANCEL_EDIT';
+
+export function selectEntry(id) {
+  return function (dispatch) {
+    dispatch({
+      type: SELECT_ENTRY,
+      payload: id
+    });
+
+    dispatch(fetchEntry(id));
+  };
+}
 
 export function createNewEntry() {
   return {type: CREATE_NEW_ENTRY};
 }
 
 export function editEntry(id) {
-  return {type: EDIT_ENTRY, id};
+  return {
+    type: EDIT_ENTRY,
+    payload: id
+  };
 }
 
 export function cancelEdit() {
   return {type: CANCEL_EDIT};
 }
 
-//async actions
-//GET /api/entries
-export const REQUEST_ENTRIES = 'REQUEST_ENTRIES';
-export const RECEIVE_ENTRIES = 'RECEIVE_ENTRIES';
+// default promiseTypeSuffixes of redux-promise-middleware:
+// ['PENDING', 'FULFILLED', 'REJECTED']
+export const pending = actionType => `${actionType}_PENDING`;
+export const fulfilled = actionType => `${actionType}_FULFILLED`;
+export const rejected = actionType => `${actionType}_REJECTED`;
 
-function requestEntries() {
-  return {type: REQUEST_ENTRIES};
-}
+// async actions generated with redux-promise-middleware:
+export const FETCH_ENTRY = 'FETCH_ENTRY';
+export const FETCH_ENTRY_LIST = 'FETCH_ENTRY_LIST';
+export const SAVE_ENTRY = 'SAVE_ENTRY';
+export const DELETE_ENTRY = 'DELETE_ENTRY';
 
-function receiveEntries(json) {
-  return {type: RECEIVE_ENTRIES, entries: json};
-}
-
-export function fetchEntries() {
-  return function(dispatch) {
-    dispatch(requestEntries());
-    storage.getAll()
-      .then(items => dispatch(receiveEntries(items)));
-  };
-}
-
-//GET /api/entries/${id}
-export const REQUEST_ENTRY = 'REQUEST_ENTRY';
-export const RECEIVE_ENTRY = 'RECEIVE_ENTIRY';
-
-function requestEntry() {
-  return {type: REQUEST_ENTRY};
-}
-
-function receiveEntry(json) {
-  return {type: RECEIVE_ENTRY, entry: json};
-}
-
-export function selectEntry(id) {
-  return function(dispatch) {
-    dispatch(requestEntry());
-    storage.getEntry(id)
-      .then(item => dispatch(receiveEntry(item)));
-  };
-}
-
-//POST /api/entries/ & put /api/entries/${id}
-export const UPDATE_ENTRIES = 'UPDATE_ENTRIES';
-export const UPDATE_SAVED_ENTRY = 'UPDATE_SAVED_ENTRY';
-export const REQUEST_UPDATE_ENTRY = 'REQUEST_UPDATE_ENTRY';
-
-function requestUpdateEntry() {
-  return {type: REQUEST_UPDATE_ENTRY};
-}
-function updateSavedEntry(entry) {
-  return {type: UPDATE_SAVED_ENTRY, entry};
-}
-function updateEntries(entries) {
-  return {type: UPDATE_ENTRIES, entries};
-}
-
-export function saveEntry(entry) {
-  const {title, content, id} = entry;
-  return function(dispatch) {
-    dispatch(requestUpdateEntry());
-    if (id) {
-      //更新流程
-      storage.updateEntry(id, title, content)
-        .then((entry) => dispatch(updateSavedEntry(entry)))
-        .then(() => storage.getAll())
-        .then(entries => dispatch(updateEntries(entries)));
-    } else {
-      //创建流程
-      storage.insertEntry(title, content)
-        .then(entry => dispatch(updateSavedEntry(entry)))
-        .then(() => storage.getAll())
-        .then(entries => dispatch(updateEntries(entries)));
+export function fetchEntry(id) {
+  return {
+    type: FETCH_ENTRY,
+    payload: {
+      promise: storage.getEntry(id),
+      data: id
     }
   };
 }
 
-//DELETE /api/entries/${id}
-export const REQUEST_DELETE_ENTRY = 'REQUEST_DELETE_ENTRY';
-export const UPDATE_DELETED_ENTRY = 'UPDATE_DELETED_ENTRY';
+export function fetchEntryList() {
+  return {
+    type: FETCH_ENTRY_LIST,
+    payload: storage.getAll()
+  };
+}
 
-function requestDeleteEntry() {
-  return {type: UPDATE_DELETED_ENTRY};
+export function saveEntry(entry) {
+  const promise = entry.id
+    ? storage.updateEntry(
+      entry.id,
+      entry.title,
+      entry.content
+    )
+    : storage.insertEntry(
+      entry.title,
+      entry.content
+    );
+
+  return dispatch => {
+    dispatch({
+      type: SAVE_ENTRY,
+      payload: {
+        promise,
+        data: entry
+      }
+    });
+
+    promise.then(
+      () => dispatch(fetchEntryList())
+    );
+  };
 }
-function updateDeletedEntry(id) {
-  return {type: UPDATE_DELETED_ENTRY, id};
-}
+
 export function deleteEntry(id) {
-  return function(dispatch) {
-    dispatch(requestDeleteEntry());
-    storage.deleteEntry(id)
-      .then(item => dispatch(updateDeletedEntry(item)));
+  const promise = storage.deleteEntry(id).then(() => id);
+
+  return dispatch => {
+    dispatch({
+      type: DELETE_ENTRY,
+      payload: {
+        promise,
+        data: id
+      }
+    });
+
+    promise.then(
+      () => dispatch(fetchEntryList())
+    );
   };
 }

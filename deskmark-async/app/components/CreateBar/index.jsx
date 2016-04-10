@@ -1,7 +1,6 @@
 /*
- * @file component create-bar
+ * @file component CreateBar
  */
-
 
 import './style.scss';
 
