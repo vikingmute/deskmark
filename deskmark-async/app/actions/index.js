@@ -38,9 +38,9 @@ export function cancelEdit() {
 
 // default promiseTypeSuffixes of redux-promise-middleware:
 // ['PENDING', 'FULFILLED', 'REJECTED']
-export const pending = actionType => `${actionType}_PENDING`;
-export const fulfilled = actionType => `${actionType}_FULFILLED`;
-export const rejected = actionType => `${actionType}_REJECTED`;
+export const pendingOf = actionType => `${actionType}_PENDING`;
+export const fulfilledOf = actionType => `${actionType}_FULFILLED`;
+export const rejectedOf = actionType => `${actionType}_REJECTED`;
 
 // async actions generated with redux-promise-middleware:
 export const FETCH_ENTRY = 'FETCH_ENTRY';

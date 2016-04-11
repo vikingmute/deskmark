@@ -9,20 +9,20 @@ const initialState = {
   data: []
 };
 
-const { pending, fulfilled } = ActionTypes;
+const { pendingOf, fulfilledOf } = ActionTypes;
 
 export default function (state=initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
 
-    case pending(ActionTypes.FETCH_ENTRY_LIST):
+    case pendingOf(ActionTypes.FETCH_ENTRY_LIST):
       return {
         ...state,
         isFetching: true
       };
 
-    case fulfilled(ActionTypes.FETCH_ENTRY_LIST):
+    case fulfilledOf(ActionTypes.FETCH_ENTRY_LIST):
       return {
         ...state,
         isFetching: false,

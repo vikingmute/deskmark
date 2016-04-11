@@ -6,7 +6,7 @@ import * as ActionTypes from 'actions';
 
 const initialState = {};
 
-const { pending, fulfilled } = ActionTypes;
+const { pendingOf, fulfilledOf } = ActionTypes;
 
 export default function (state=initialState, action) {
   const { type, payload } = action;
@@ -14,7 +14,7 @@ export default function (state=initialState, action) {
 
   switch (type) {
 
-    case pending(ActionTypes.FETCH_ENTRY):
+    case pendingOf(ActionTypes.FETCH_ENTRY):
       id = payload;
       return {
         ...state,
@@ -24,7 +24,7 @@ export default function (state=initialState, action) {
         }
       };
 
-    case fulfilled(ActionTypes.FETCH_ENTRY):
+    case fulfilledOf(ActionTypes.FETCH_ENTRY):
       entry = payload;
       return {
         ...state,
@@ -34,7 +34,7 @@ export default function (state=initialState, action) {
         }
       };
 
-    case pending(ActionTypes.SAVE_ENTRY):
+    case pendingOf(ActionTypes.SAVE_ENTRY):
       id = payload.id;
       return {
         ...state,
@@ -44,7 +44,7 @@ export default function (state=initialState, action) {
         }
       };
 
-    case fulfilled(ActionTypes.SAVE_ENTRY):
+    case fulfilledOf(ActionTypes.SAVE_ENTRY):
       entry = payload;
       return {
         ...state,
@@ -54,7 +54,7 @@ export default function (state=initialState, action) {
         }
       };
 
-    case pending(ActionTypes.DELETE_ENTRY):
+    case pendingOf(ActionTypes.DELETE_ENTRY):
       id = payload;
       return {
         ...state,
@@ -64,7 +64,7 @@ export default function (state=initialState, action) {
         }
       };
 
-    case fulfilled(ActionTypes.DELETE_ENTRY):
+    case fulfilledOf(ActionTypes.DELETE_ENTRY):
       id = payload;
       return {
         ...state,

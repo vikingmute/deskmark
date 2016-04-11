@@ -9,7 +9,7 @@ const initialState = {
   selectedId: null
 };
 
-const { pending, fulfilled } = ActionTypes;
+const { pendingOf, fulfilledOf } = ActionTypes;
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
@@ -43,14 +43,14 @@ export default function (state = initialState, action) {
         isEditing: false
       };
 
-    case fulfilled(ActionTypes.SAVE_ENTRY):
+    case fulfilledOf(ActionTypes.SAVE_ENTRY):
       return {
         ...state,
         isEditing: false,
         selectedId: state.selectedId || payload.id
       };
 
-    case fulfilled(ActionTypes.DELETE_ENTRY):
+    case fulfilledOf(ActionTypes.DELETE_ENTRY):
       return {
         ...state,
         isEditing: false,
