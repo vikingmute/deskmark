@@ -2,7 +2,7 @@
  * @file component Item
  */
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import marked from 'marked';
 
 const propTypes = {
@@ -11,7 +11,6 @@ const propTypes = {
 };
 
 function ListItem ({ item, onClick }) {
-  
   let formatTime = '未知时间';
   if (item.time) {
     formatTime = new Date(item.time).toISOString().match(/(\d{4}-\d{2}-\d{2})/)[1];

@@ -1,3 +1,7 @@
+/*
+ * @file storage based on ajax
+ */
+
 import uuid from 'uuid';
 import fetch from 'isomorphic-fetch';
 

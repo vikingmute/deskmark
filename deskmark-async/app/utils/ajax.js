@@ -1,3 +1,7 @@
+/*
+ * @file ajax helpers
+ */
+
 export function get(url) {
   return new Promise(function(resolve, reject) {
     const xhr = new XMLHttpRequest();

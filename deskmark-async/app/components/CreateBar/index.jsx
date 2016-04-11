@@ -1,11 +1,10 @@
 /*
- * @file component create-bar
+ * @file component CreateBar
  */
-
 
 import './style.scss';
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 const propTypes = {
   onClick: PropTypes.func.isRequired

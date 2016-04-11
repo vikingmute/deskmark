@@ -6,7 +6,7 @@
 
 import './style.scss';
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 const propTypes = {
   item: PropTypes.object,
@@ -14,10 +14,8 @@ const propTypes = {
   onCancel: PropTypes.func.isRequired
 };
 
-class Editor extends React.Component {
-
+class ItemEditor extends React.Component {
   render() {
-
     let { item, onSave, onCancel } = this.props;
 
     item = item || {
@@ -50,6 +48,6 @@ class Editor extends React.Component {
   }
 }
 
-Editor.propTypes = propTypes;
+ItemEditor.propTypes = propTypes;
 
-export default Editor;
+export default ItemEditor;

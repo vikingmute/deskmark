@@ -1,80 +1,80 @@
+/*
+ * @file storage based on firebase
+ */
+
 import uuid from 'uuid';
-import {
-  subscribe as subscribeToFirebase,
-  save as saveToFirebase
-} from './firebase';
-
-let currentResults = null;
-
-var inited = new Promise((resolve, reject) => {
-  subscribeToFirebase(data => {
-    currentResults = data || [];
-    resolve();
-  });
-});
+import { fetch, save } from './firebase';
 
 export function getAll () {
-  return inited.then(() => currentResults);
+  return fetch('list').then(list => list || []);
 }
 
-export function saveAll (results) {
-  return new Promise((resolve, reject) => {
-    saveToFirebase(results).then(
-      () => resolve(),
-      reject
-    );
-  });
+export function saveAll (list) {
+  return save('list', list);
+}
+
+function updateAll (update) {
+  return getAll()
+    .then(update)
+    .then(saveAll);
 }
 
 export function getEntry (id) {
-  return getAll()
-    .then(
-      results => results.find(
-        result => result.id === id
-      )
-    );
+  return fetch(`detail/${id}`);
 }
 
 export function insertEntry (title, content) {
-  let entry = {
+  let summary = {
     title,
-    content,
     id: uuid.v4(),
     time: new Date().getTime()
   };
 
-  return getAll()
-    .then(results => [...results, entry])
-    .then(saveAll)
-    .then(() => entry);
+  let entry = {
+    ...summary,
+    content
+  };
+
+  return Promise.all([
+    updateAll(list => [...list, summary]),
+    save(`detail/${entry.id}`, entry)
+  ]).then(() => entry);
 }
 
 export function deleteEntry (id) {
-  return getAll()
-    .then(
-      results => results.filter(
-        result => result.id !== id
+  return Promise.all([
+    updateAll(
+      list => list.filter(
+        summary => summary.id !== id
       )
-    )
-    .then(saveAll);
+    ),
+    save(`detail/${id}`, null)
+  ]);
 }
 
 export function updateEntry (id, title, content) {
+  const name = `detail/${id}`;
   let entry;
-  return getAll()
-    .then(
-      results => results.map(
-        result => (
-          result.id === id
-          ? (entry = {
-            ...result,
-            title,
-            content
-          })
-          : result
+
+  return Promise.all([
+    updateAll(
+      list => list.map(
+        summary => (
+          summary.id === id
+          ? {
+            ...summary,
+            title
+          }
+          : summary
         )
       )
+    ),
+    fetch(name).then(
+      saved => save(name, entry = {
+        ...saved,
+        title,
+        content
+      })
     )
-    .then(saveAll)
-    .then(() => entry);
+  ]).then(() => entry);
 }

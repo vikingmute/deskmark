@@ -6,7 +6,7 @@
 
 import './style.scss';
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import marked from 'marked';
 
 const propTypes = {
