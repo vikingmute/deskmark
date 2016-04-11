@@ -28,7 +28,7 @@ class Deskmark extends React.Component {
 
     const entryList = state.entries.list.data;
 
-    const entryItem = (
+    const entry = (
       selectedId
       && detailedEntries[selectedId]
       && detailedEntries[selectedId].data
@@ -37,14 +37,14 @@ class Deskmark extends React.Component {
     const mainPart = isEditing
       ? (
         <ItemEditor
-          item={entryItem}
+          item={entry}
           onSave={actions.saveEntry}
           onCancel={actions.cancelEdit}
         />
       )
       : (
         <ItemShowLayer
-          item={entryItem}
+          item={entry}
           onEdit={actions.editEntry}
           onDelete={actions.deleteEntry}
         />
