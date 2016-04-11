@@ -25,7 +25,7 @@ const store = applyMiddleware(
 const App = connect(
   state => ({ state }),
   dispatch => ({
-    actions: bindActionCreators(actionCreators, dispatch)
+    actions: bindActionCreators(actionCreators, dispatch),
   })
 )(Deskmark);
 
@@ -35,9 +35,9 @@ const container = document.body.appendChild(
 );
 
 // render root conponent with store to DOM container
-render (
+render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
   container
 );

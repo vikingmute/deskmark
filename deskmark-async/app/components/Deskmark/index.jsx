@@ -12,14 +12,10 @@ import './style.scss';
 
 const propTypes = {
   state: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired
+  actions: PropTypes.object.isRequired,
 };
 
 class Deskmark extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.props.actions.fetchEntryList();
@@ -39,16 +35,20 @@ class Deskmark extends React.Component {
     ) || null;
 
     const mainPart = isEditing
-      ? <ItemEditor
+      ? (
+        <ItemEditor
           item={entryItem}
           onSave={actions.saveEntry}
           onCancel={actions.cancelEdit}
         />
-      : <ItemShowLayer
+      )
+      : (
+        <ItemShowLayer
           item={entryItem}
           onEdit={actions.editEntry}
           onDelete={actions.deleteEntry}
-        />;
+        />
+      );
 
     return (
       <section className="deskmark-component">

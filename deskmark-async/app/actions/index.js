@@ -11,10 +11,10 @@ export const EDIT_ENTRY = 'EDIT_ENTRY';
 export const CANCEL_EDIT = 'CANCEL_EDIT';
 
 export function selectEntry(id) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch({
       type: SELECT_ENTRY,
-      payload: id
+      payload: id,
     });
 
     dispatch(fetchEntry(id));
@@ -22,18 +22,18 @@ export function selectEntry(id) {
 }
 
 export function createNewEntry() {
-  return {type: CREATE_NEW_ENTRY};
+  return { type: CREATE_NEW_ENTRY };
 }
 
 export function editEntry(id) {
   return {
     type: EDIT_ENTRY,
-    payload: id
+    payload: id,
   };
 }
 
 export function cancelEdit() {
-  return {type: CANCEL_EDIT};
+  return { type: CANCEL_EDIT };
 }
 
 // default promiseTypeSuffixes of redux-promise-middleware:
@@ -53,15 +53,15 @@ export function fetchEntry(id) {
     type: FETCH_ENTRY,
     payload: {
       promise: storage.getEntry(id),
-      data: id
-    }
+      data: id,
+    },
   };
 }
 
 export function fetchEntryList() {
   return {
     type: FETCH_ENTRY_LIST,
-    payload: storage.getAll()
+    payload: storage.getAll(),
   };
 }
 
@@ -82,8 +82,8 @@ export function saveEntry(entry) {
       type: SAVE_ENTRY,
       payload: {
         promise,
-        data: entry
-      }
+        data: entry,
+      },
     });
 
     promise.then(
@@ -100,8 +100,8 @@ export function deleteEntry(id) {
       type: DELETE_ENTRY,
       payload: {
         promise,
-        data: id
-      }
+        data: id,
+      },
     });
 
     promise.then(

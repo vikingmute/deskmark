@@ -5,54 +5,54 @@
 import uuid from 'uuid';
 import { fetch, save } from './firebase';
 
-export function getAll () {
+export function getAll() {
   return fetch('list').then(list => list || []);
 }
 
-export function saveAll (list) {
+export function saveAll(list) {
   return save('list', list);
 }
 
-function updateAll (update) {
+function updateAll(update) {
   return getAll()
     .then(update)
     .then(saveAll);
 }
 
-export function getEntry (id) {
+export function getEntry(id) {
   return fetch(`detail/${id}`);
 }
 
-export function insertEntry (title, content) {
-  let summary = {
+export function insertEntry(title, content) {
+  const summary = {
     title,
     id: uuid.v4(),
-    time: new Date().getTime()
+    time: new Date().getTime(),
   };
 
-  let entry = {
+  const entry = {
     ...summary,
-    content
+    content,
   };
 
   return Promise.all([
     updateAll(list => [...list, summary]),
-    save(`detail/${entry.id}`, entry)
+    save(`detail/${entry.id}`, entry),
   ]).then(() => entry);
 }
 
-export function deleteEntry (id) {
+export function deleteEntry(id) {
   return Promise.all([
     updateAll(
       list => list.filter(
         summary => summary.id !== id
       )
     ),
-    save(`detail/${id}`, null)
+    save(`detail/${id}`, null),
   ]);
 }
 
-export function updateEntry (id, title, content) {
+export function updateEntry(id, title, content) {
   const name = `detail/${id}`;
   let entry;
 
@@ -63,7 +63,7 @@ export function updateEntry (id, title, content) {
           summary.id === id
           ? {
             ...summary,
-            title
+            title,
           }
           : summary
         )
@@ -73,8 +73,8 @@ export function updateEntry (id, title, content) {
       saved => save(name, entry = {
         ...saved,
         title,
-        content
+        content,
       })
-    )
+    ),
   ]).then(() => entry);
 }
