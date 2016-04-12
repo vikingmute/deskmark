@@ -8,5 +8,5 @@ import detail from './detail';
 
 export default combineReducers({
   list,
-  detail
+  detail,
 });

@@ -11,16 +11,16 @@ import React, { PropTypes } from 'react';
 const propTypes = {
   item: PropTypes.object,
   onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
 };
 
 class ItemEditor extends React.Component {
   render() {
-    let { item, onSave, onCancel } = this.props;
+    const { onSave, onCancel } = this.props;
 
-    item = item || {
+    const item = this.props.item || {
       title: '',
-      content: ''
+      content: '',
     };
 
     let saveText = item.id ? '保存' : '创建';
@@ -29,7 +29,7 @@ class ItemEditor extends React.Component {
       onSave({
         ...item,
         title: this.refs.title.value,
-        content: this.refs.content.value
+        content: this.refs.content.value,
       });
     };
 

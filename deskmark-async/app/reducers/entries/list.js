@@ -6,12 +6,12 @@ import * as ActionTypes from 'actions';
 
 const initialState = {
   isFetching: false,
-  data: []
+  data: [],
 };
 
 const { pendingOf, fulfilledOf } = ActionTypes;
 
-export default function (state=initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
@@ -19,14 +19,14 @@ export default function (state=initialState, action) {
     case pendingOf(ActionTypes.FETCH_ENTRY_LIST):
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
 
     case fulfilledOf(ActionTypes.FETCH_ENTRY_LIST):
       return {
         ...state,
         isFetching: false,
-        data: payload
+        data: payload,
       };
 
     default:

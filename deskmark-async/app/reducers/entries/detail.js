@@ -8,9 +8,10 @@ const initialState = {};
 
 const { pendingOf, fulfilledOf } = ActionTypes;
 
-export default function (state=initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
-  let id, entry;
+  let id;
+  let entry;
 
   switch (type) {
 
@@ -20,8 +21,8 @@ export default function (state=initialState, action) {
         ...state,
         [id]: {
           ...state[id],
-          isFetching: true
-        }
+          isFetching: true,
+        },
       };
 
     case fulfilledOf(ActionTypes.FETCH_ENTRY):
@@ -30,8 +31,8 @@ export default function (state=initialState, action) {
         ...state,
         [entry.id]: {
           data: entry,
-          isFetching: false
-        }
+          isFetching: false,
+        },
       };
 
     case pendingOf(ActionTypes.SAVE_ENTRY):
@@ -40,8 +41,8 @@ export default function (state=initialState, action) {
         ...state,
         [id]: {
           ...state[id],
-          isFetching: true
-        }
+          isFetching: true,
+        },
       };
 
     case fulfilledOf(ActionTypes.SAVE_ENTRY):
@@ -50,8 +51,8 @@ export default function (state=initialState, action) {
         ...state,
         [entry.id]: {
           data: entry,
-          isFetching: false
-        }
+          isFetching: false,
+        },
       };
 
     case pendingOf(ActionTypes.DELETE_ENTRY):
@@ -60,8 +61,8 @@ export default function (state=initialState, action) {
         ...state,
         [id]: {
           ...state[id],
-          isFetching: true
-        }
+          isFetching: true,
+        },
       };
 
     case fulfilledOf(ActionTypes.DELETE_ENTRY):
@@ -70,8 +71,8 @@ export default function (state=initialState, action) {
         ...state,
         [id]: {
           data: null,
-          isFetching: false
-        }
+          isFetching: false,
+        },
       };
 
     default:
