@@ -56,7 +56,7 @@
   "dependencies": {
     "babel-polyfill": "^6.6.1",
     "marked": "^0.3.5",
-    "react": "^15.0.0-rc.1",
-    "react-dom": "^15.0.0-rc.1"
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
   }
 }
