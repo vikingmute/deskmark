@@ -58,9 +58,9 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "marked": "^0.3.5",
-    "react": "^0.14.6",
-    "react-dom": "^0.14.3",
-    "react-redux": "^4.2.1",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-redux": "^4.4.2",
     "redux": "^3.2.1",
     "redux-promise-middleware": "^3.0.0",
     "redux-thunk": "^1.0.3"
