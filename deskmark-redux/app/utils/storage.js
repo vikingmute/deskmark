@@ -1,11 +1,15 @@
+/*
+ * @file storage based on localStorage
+ */
+
 import uuid from 'uuid';
 
 const STORAGE = window.localStorage;
 const STORAGE_KEY = 'deskmark';
 
-export function getAll () {
-  return new Promise((resolve, reject) => {
-    let results = STORAGE.getItem(STORAGE_KEY);
+export function getAll() {
+  return new Promise((resolve) => {
+    const results = STORAGE.getItem(STORAGE_KEY);
 
     try {
       resolve(
@@ -19,8 +23,8 @@ export function getAll () {
   });
 }
 
-export function saveAll (results) {
-  return new Promise((resolve, reject) => {
+export function saveAll(results) {
+  return new Promise((resolve) => {
     STORAGE.setItem(
       STORAGE_KEY,
       JSON.stringify(results)
@@ -30,7 +34,7 @@ export function saveAll (results) {
   });
 }
 
-export function getEntry (id) {
+export function getEntry(id) {
   return getAll()
     .then(
       results => results.find(
@@ -39,12 +43,12 @@ export function getEntry (id) {
     );
 }
 
-export function insertEntry (title, content) {
-  let entry = {
+export function insertEntry(title, content) {
+  const entry = {
     title,
     content,
     id: uuid.v4(),
-    time: new Date().getTime()
+    time: new Date().getTime(),
   };
 
   return getAll()
@@ -53,7 +57,7 @@ export function insertEntry (title, content) {
     .then(() => entry);
 }
 
-export function deleteEntry (id) {
+export function deleteEntry(id) {
   return getAll()
     .then(
       results => results.filter(
@@ -63,7 +67,7 @@ export function deleteEntry (id) {
     .then(saveAll);
 }
 
-export function updateEntry (id, title, content) {
+export function updateEntry(id, title, content) {
   let entry;
   return getAll()
     .then(
@@ -73,7 +77,7 @@ export function updateEntry (id, title, content) {
           ? (entry = {
             ...result,
             title,
-            content
+            content,
           })
           : result
         )

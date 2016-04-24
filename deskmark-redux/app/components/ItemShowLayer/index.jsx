@@ -6,16 +6,16 @@
 
 import './style.scss';
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import marked from 'marked';
 
 const propTypes = {
   item: PropTypes.object,
   onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired
+  onDelete: PropTypes.func.isRequired,
 };
 
-function ItemShowLayer({ item, onEdit, onDelete }){
+function ItemShowLayer({ item, onEdit, onDelete }) {
   if (!item || !item.id) {
     return (
       <div className="col-md-8 item-show-layer-component">
@@ -24,7 +24,8 @@ function ItemShowLayer({ item, onEdit, onDelete }){
     );
   }
 
-  let content = marked(item.content);
+  const content = marked(item.content);
+
   return (
     <div className="col-md-8 item-show-layer-component">
       <div className="control-area">
@@ -33,7 +34,7 @@ function ItemShowLayer({ item, onEdit, onDelete }){
       </div>
       <h2>{item.title}</h2>
       <div className="item-text">
-        <div dangerouslySetInnerHTML={{__html: content}} />
+        <div dangerouslySetInnerHTML={{ __html: content }} />
       </div>
     </div>
   );
