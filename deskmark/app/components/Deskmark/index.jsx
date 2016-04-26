@@ -2,14 +2,15 @@
  * @file component Deskmark
  */
 
-import './style.scss';
-
 import React from 'react';
 import uuid from 'uuid';
+
+import CreateBar from 'components/CreateBar';
 import List from 'components/List';
 import ItemEditor from 'components/ItemEditor';
 import ItemShowLayer from 'components/ItemShowLayer';
-import CreateBar from 'components/CreateBar';
+
+import './style.scss';
 
 export default class App extends React.Component {
 
@@ -19,7 +20,7 @@ export default class App extends React.Component {
     this.state = {
       items: [],
       selectedId: null,
-      editing: false
+      editing: false,
     };
 
     this.selectItem = this.selectItem.bind(this);
@@ -37,7 +38,7 @@ export default class App extends React.Component {
 
     this.setState({
       selectedId: id,
-      editing: false
+      editing: false,
     });
   }
 
@@ -46,9 +47,11 @@ export default class App extends React.Component {
 
     // new item
     if (!item.id) {
-      item.id = uuid.v4();
-      item.time = new Date().getTime();
-      items = [...items, item];
+      items = [...items, {
+        ...item,
+        id: uuid.v4(),
+        time: new Date().getTime(),
+      }];
     // existed item
     } else {
       items = items.map(
@@ -56,7 +59,7 @@ export default class App extends React.Component {
           exist.id === item.id
           ? {
             ...exist,
-            ...item
+            ...item,
           }
           : exist
         )
@@ -66,7 +69,7 @@ export default class App extends React.Component {
     this.setState({
       items,
       selectedId: item.id,
-      editing: false
+      editing: false,
     });
   }
 
@@ -78,21 +81,21 @@ export default class App extends React.Component {
     this.setState({
       items: this.state.items.filter(
         result => result.id !== id
-      )
+      ),
     });
   }
 
   createItem() {
     this.setState({
       selectedId: null,
-      editing: true
+      editing: true,
     });
   }
 
   editItem(id) {
     this.setState({
       selectedId: id,
-      editing: true
+      editing: true,
     });
   }
 
@@ -101,22 +104,23 @@ export default class App extends React.Component {
   }
 
   render() {
-
-    let { items, selectedId, editing } = this.state;
-
-    let selected = selectedId && items.find(item => item.id === selectedId);
-
-    let mainPart = editing
-      ? <ItemEditor
+    const { items, selectedId, editing } = this.state;
+    const selected = selectedId && items.find(item => item.id === selectedId);
+    const mainPart = editing
+      ? (
+        <ItemEditor
           item={selected}
           onSave={this.saveItem}
           onCancel={this.cancelEdit}
         />
-      : <ItemShowLayer
+      )
+      : (
+        <ItemShowLayer
           item={selected}
           onEdit={this.editItem}
           onDelete={this.deleteItem}
-        />;
+        />
+      );
 
     return (
       <section className="deskmark-component">
@@ -125,11 +129,13 @@ export default class App extends React.Component {
         </nav>
         <div className="container">
           <div className="row">
-            <CreateBar onClick={this.createItem} />
-            <List
-              items={this.state.items}
-              onSelect={this.selectItem}
-            />
+            <div className="col-md-4 list-group">
+              <CreateBar onClick={this.createItem} />
+              <List
+                items={this.state.items}
+                onSelect={this.selectItem}
+              />
+            </div>
             {mainPart}
           </div>
         </div>

@@ -1,17 +1,16 @@
 /*
- * @file component create-bar
+ * @file component CreateBar
  */
-
 
 import './style.scss';
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 const propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 };
 
-function CreateBar({ onClick }){
+function CreateBar({ onClick }) {
   return (
     <a href="#" onClick={onClick} className="list-group-item create-bar-component">
       + 创建新的文章

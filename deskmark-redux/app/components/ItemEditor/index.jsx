@@ -6,32 +6,32 @@
 
 import './style.scss';
 
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 
 const propTypes = {
   item: PropTypes.object,
   onSave: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
 };
 
-class Editor extends React.Component {
-
+class ItemEditor extends React.Component {
   render() {
+    const { onSave, onCancel } = this.props;
 
-    let { item, onSave, onCancel } = this.props;
-
-    item = item || {
+    const item = this.props.item || {
       title: '',
-      content: ''
+      content: '',
     };
 
     let saveText = item.id ? '保存' : '创建';
 
-    let save = () => onSave({
-      ...item,
-      title: this.refs.title.value,
-      content: this.refs.content.value
-    });
+    let save = () => {
+      onSave({
+        ...item,
+        title: this.refs.title.value,
+        content: this.refs.content.value,
+      });
+    };
 
     return (
       <div className="col-md-8 item-editor-component">
@@ -48,6 +48,6 @@ class Editor extends React.Component {
   }
 }
 
-Editor.propTypes = propTypes;
+ItemEditor.propTypes = propTypes;
 
-export default Editor;
+export default ItemEditor;

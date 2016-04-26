@@ -1,24 +1,41 @@
+/*
+ * @file main file for app deskmark
+ */
+
 import React from 'react';
-import {render} from 'react-dom';
+import { render } from 'react-dom';
+import { bindActionCreators, createStore, applyMiddleware } from 'redux';
+import { connect, Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import App from './containers/app';
-import rootReducer from './reducers';
+
+import Deskmark from 'components/Deskmark';
+import rootReducer from 'reducers';
+import * as actionCreators from 'actions';
 
 import 'bootstrap/scss/bootstrap.scss';
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware // 允许我们 dispatch() 函数
-)(createStore);
+// create store with middlewares
+const store = applyMiddleware(
+  thunkMiddleware
+)(createStore)(rootReducer);
 
-const store = createStoreWithMiddleware(rootReducer);
-const ele = document.createElement('div');
-document.body.appendChild(ele);
+// create root component based on component Deskmark
+const App = connect(
+  state => ({ state }),
+  dispatch => ({
+    actions: bindActionCreators(actionCreators, dispatch),
+  })
+)(Deskmark);
 
-render (
+// create DOM container
+const container = document.body.appendChild(
+  document.createElement('div')
+);
+
+// render root conponent with store to DOM container
+render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
-  ele
+  container
 );
