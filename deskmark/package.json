@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server --hot --host 0.0.0.0",
-    "test": "mocha --compilers js:babel-core/register --require ignore-styles"
+    "test": "NODE_ENV=production mocha --compilers js:babel-core/register --require ignore-styles"
   },
   "directories": {
     "test": "test"
@@ -44,11 +44,6 @@
     "expect": "^1.13.4",
     "html-webpack-plugin": "^1.7.0",
     "ignore-styles": "^2.0.0",
-    "karma": "^0.13.18",
-    "karma-chrome-launcher": "^0.2.2",
-    "karma-cli": "^0.1.2",
-    "karma-mocha": "^0.2.1",
-    "karma-webpack": "^1.7.0",
     "mocha": "^2.3.4",
     "node-sass": "^3.4.2",
     "react-addons-test-utils": "^15.0.1",
