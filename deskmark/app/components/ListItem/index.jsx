@@ -23,7 +23,7 @@ function ListItem({ item, onClick }) {
       <span className="label label-default label-pill pull-xs-right">
         {formatTime}
       </span>
-      {item.title}
+      <span className="item-title">{item.title}</span>
     </a>
   );
 }

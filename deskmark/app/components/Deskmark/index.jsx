@@ -5,10 +5,10 @@
 import React from 'react';
 import uuid from 'uuid';
 
-import CreateBar from 'components/CreateBar';
-import List from 'components/List';
-import ItemEditor from 'components/ItemEditor';
-import ItemShowLayer from 'components/ItemShowLayer';
+import CreateBar from '../CreateBar';
+import List from '../List';
+import ItemEditor from '../ItemEditor';
+import ItemShowLayer from '../ItemShowLayer';
 
 import './style.scss';
 

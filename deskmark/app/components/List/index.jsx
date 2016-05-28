@@ -3,7 +3,7 @@
  */
 
 import React, { PropTypes } from 'react';
-import ListItem from 'components/ListItem';
+import ListItem from '../ListItem';
 
 const propTypes = {
   items: PropTypes.array.isRequired,
